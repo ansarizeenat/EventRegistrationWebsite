@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusConnect Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>CampusConnect Admin Dashboard</h1>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="admin.html">Dashboard</a>
+    </nav>
+</header>
+
+<main>
+
+<section>
+
+<h2>Registered Students</h2>
+
+<div class="dashboard-card">
+    <h3>Total Registrations</h3>
+    <p>0</p>
+</div>
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search by Name, Email, College, Course or Event..."
+onkeyup="searchStudent()">
+
+<table id="studentTable">
+
+<thead>
+
+<tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>College</th>
+    <th>Course</th>
+    <th>Event</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<!-- MongoDB data will load here automatically -->
+
+</tbody>
+
+</table>
+
+</section>
+
+</main>
+
+<footer>
+    <p>© 2026 CampusConnect</p>
+</footer>
+
+<script>
+
+function searchStudent(){
+
+    let input = document.getElementById("searchInput").value.toLowerCase();
+
+    let table = document.getElementById("studentTable");
+
+    let rows = table.getElementsByTagName("tr");
+
+    for(let i = 1; i < rows.length; i++){
+
+        let rowText = rows[i].innerText.toLowerCase();
+
+        if(rowText.includes(input)){
+            rows[i].style.display = "";
+        }else{
+            rows[i].style.display = "none";
+        }
+
+    }
+
+}
+
+</script>
+
+<script src="admin.js"></script>
+
+</body>
+</html>
