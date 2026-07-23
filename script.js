@@ -1,7 +1,22 @@
 const form = document.getElementById("registrationForm");
 const message = document.getElementById("message");
 
-console.log("Script loaded");
+console.log("Script loaded");async function loadStats() {
+    try {
+        const response = await fetch("/stats");
+        const stats = await response.json();
+
+        document.getElementById("registrationCount").textContent = stats.registrations;
+        document.getElementById("collegeCount").textContent = 10 + stats.colleges;
+
+    } catch (error) {
+        console.log("Stats Error:", error);
+    }
+}
+
+// Page load hote hi stats dikhao
+loadStats();
+
 
 form.addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -34,6 +49,7 @@ form.addEventListener("submit", async function (event) {
 
         message.style.color = "green";
         message.textContent = result.message;
+        loadStats();
 
     } catch (error) {
         console.log("Fetch Error:", error);
