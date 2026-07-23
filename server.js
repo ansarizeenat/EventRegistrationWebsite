@@ -68,7 +68,36 @@ app.post("/register", async (req, res) => {
     }
 
 });
+// Live Statistics API
+app.get("/stats", async (req, res) => {
+    try {
+        const totalRegistrations = await Registration.countDocuments();
 
+        const colleges = await Registration.distinct("college");
+
+        const eventStats = await Registration.aggregate([
+            {
+                $group: {
+                    _id: "$event",
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+
+        res.json({
+            registrations: 500 + totalRegistrations,
+            colleges: colleges.length,
+            events: eventStats
+        });
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({
+            message: "Stats Error"
+        });
+    }
+});
 // Get All Registrations
 app.get("/registrations", async (req, res) => {
 
@@ -89,7 +118,7 @@ app.get("/registrations", async (req, res) => {
     }
 
 });
-
+console.log("STATS ROUTE LOADED");
 // Start Server
 app.listen(PORT, () => {
     console.log(`Server started at http://localhost:${PORT}`);
