@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration | CampusConnect</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>CampusConnect</h1>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="index.html#events">Events</a>
+        <a href="index.html#contact">Contact</a>
+    </nav>
+</header>
+
+<section style="margin-top:50px;">
+
+<h2 style="text-align:center;">Event Registration Form</h2>
+
+<form id="registrationForm">
+
+<label>Full Name</label>
+<input
+type="text"
+id="fullName"
+placeholder="Enter your full name"
+required>
+
+<label>Email Address</label>
+<input
+type="email"
+id="email"
+placeholder="Enter email"
+required>
+
+<label>Phone Number</label>
+<input
+type="tel"
+id="phone"
+placeholder="Enter phone number"
+required>
+
+<label>College Name</label>
+<input
+type="text"
+id="college"
+placeholder="Enter college name"
+required>
+
+<label>Course / Class</label>
+<input
+type="text"
+id="course"
+placeholder="Example: TY B.Sc CS"
+required>
+
+<label>Select Event</label>
+
+<select id="event" required>
+
+<option value="">Select Event</option>
+
+<option>TechSpark 2026</option>
+<option>Cultural Night</option>
+<option>Sports Meet</option>
+<option>AI & Web Development Workshop</option>
+<option>Startup & Entrepreneurship Summit</option>
+<option>Photography Competition</option>
+<option>Poster & Art Competition</option>
+
+</select>
+
+<p id="message"></p>
+
+<button type="submit">
+Submit Registration
+</button>
+
+</form>
+
+</section>
+
+<footer>
+
+<p>
+© 2026 CampusConnect | College Event Registration Website
+</p>
+
+</footer>
+
+<script src="script.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const selectedEvent = params.get("event");
+
+if (selectedEvent) {
+    document.getElementById("event").value = selectedEvent;
+}
+</script>
+
+</body>
+</html>

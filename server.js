@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Static Files
 app.use(express.static(path.join(__dirname, "public")));
-
+console.log(path.join(__dirname, "public"));
 // MongoDB Schema
 const registrationSchema = new mongoose.Schema({
     fullName: String,
