@@ -1,8 +1,9 @@
 services:
   - type: web
-    name: campusconnect-2027
-    env: node
+    name: eventregistrationwebsite
+    runtime: node
     plan: free
+    region: oregon
     buildCommand: npm install
     startCommand: node server.js
     envVars:
