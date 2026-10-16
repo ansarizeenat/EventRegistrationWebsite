@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Student Portal | CampusConnect 2027</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔑</text></svg>">
+</head>
+
+<body>
+
+<!-- Header -->
+<header>
+  <div class="brand-wrapper">
+    <h1>
+      <a href="index.html">CampusConnect</a>
+      <span class="year-badge">2027</span>
+    </h1>
+    <p class="college-subtitle">Jana Seva Sangh's Shri Ram College, Bhandup (W)</p>
+  </div>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="index.html#events">Events 2027</a>
+    <a href="register.html">Register & Bill</a>
+    <a href="login.html" class="active">Login / Passes</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+</header>
+
+<main>
+
+<section>
+  <div class="auth-wrapper">
+    
+    <!-- Tab Controls -->
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tabStudent" onclick="switchAuthTab('student')">
+        🎓 Student Passes
+      </div>
+      <div class="auth-tab" id="tabAdmin" onclick="switchAuthTab('admin')">
+        🔑 Admin Login
+      </div>
+    </div>
+
+    <!-- Student Login Form -->
+    <div class="auth-content" id="studentAuthPane">
+      <h3>Student Event Pass Portal</h3>
+      <p>Enter your registered Email or Mobile Number to view your registered events and download your invoice receipts.</p>
+
+      <form id="studentLoginForm" onsubmit="handleStudentLogin(event)">
+        <div class="form-group">
+          <label for="studentIdentifier">Registered Email or Mobile Phone</label>
+          <input 
+            type="text" 
+            id="studentIdentifier" 
+            class="input-control" 
+            placeholder="e.g. zeenat@example.com or 9876543210" 
+            required
+          >
+          <div class="field-error" id="studentLoginError"></div>
+        </div>
+
+        <button type="submit" class="auth-btn" id="studentLoginBtn">
+          🔍 Find My Event Passes & Invoices
+        </button>
+
+        <p style="text-align: center; margin-top: 18px; font-size: 13.5px; color: #64748b;">
+          Haven't registered for any events yet?<br>
+          <a href="register.html" style="color: var(--primary); font-weight: 600; text-decoration: underline;">
+            Register now for 2027 Events →
+          </a>
+        </p>
+      </form>
+
+      <!-- Student Records Display Area -->
+      <div id="studentResultsArea" style="display: none; margin-top: 25px; border-top: 1px dashed var(--border-color); padding-top: 20px;">
+        <h4 style="color: var(--primary); font-size: 16px; margin-bottom: 10px;">📋 Your Registrations</h4>
+        <div id="studentRecordsList"></div>
+      </div>
+    </div>
+
+    <!-- Admin Login Form -->
+    <div class="auth-content" id="adminAuthPane" style="display: none;">
+      <h3>Admin Portal Access</h3>
+      <p>Authorized access for College Event Coordinators and Faculty Administrators.</p>
+
+      <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+        <div class="form-group">
+          <label for="adminUsername">Admin Username</label>
+          <input 
+            type="text" 
+            id="adminUsername" 
+            class="input-control" 
+            placeholder="Username (e.g. admin)" 
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="adminPassword">Password</label>
+          <input 
+            type="password" 
+            id="adminPassword" 
+            class="input-control" 
+            placeholder="Password (e.g. admin123)" 
+            required
+          >
+        </div>
+
+        <div class="field-error" id="adminLoginError" style="margin-bottom: 12px;"></div>
+
+        <button type="submit" class="auth-btn" id="adminLoginBtn" style="background: var(--accent); color: #0b3961; font-weight: 700;">
+          🔐 Sign In to Admin Dashboard
+        </button>
+
+        <div style="background: #f1f5f9; padding: 12px; border-radius: 8px; margin-top: 20px; font-size: 12px; color: #475569;">
+          💡 <strong>Demo Credentials:</strong><br>
+          Username: <code style="color: var(--primary); font-weight: bold;">admin</code><br>
+          Password: <code style="color: var(--primary); font-weight: bold;">admin123</code>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- Reuse Invoice Modal for re-viewing passes -->
+<div class="modal-overlay" id="invoiceModal">
+  <div class="receipt-modal">
+    <div class="receipt-header">
+      <div>
+        <h3>🎓 Official Registration Receipt</h3>
+        <p style="font-size: 12px; color: #cbd5e1;">CampusConnect 2027 • Shri Ram College</p>
+      </div>
+      <div class="receipt-badge-status" id="modalPaymentStatus">PAID & CONFIRMED</div>
+    </div>
+
+    <div class="receipt-body">
+      <div style="text-align: center; padding: 12px; background: #f0fdf4; border: 1px dashed #86efac; border-radius: 8px; margin-bottom: 18px;">
+        <span style="font-size: 12px; color: #166534; font-weight: 600;">PASS REFERENCE NUMBER</span>
+        <div style="font-size: 24px; font-weight: 800; color: #15803d;" id="modalRegId">CC-2027-XXXX</div>
+      </div>
+
+      <div class="receipt-meta-grid">
+        <div>
+          <span>Student Name</span>
+          <strong id="modalFullName">-</strong>
+        </div>
+        <div>
+          <span>Email Address</span>
+          <strong id="modalEmail">-</strong>
+        </div>
+        <div>
+          <span>Mobile Phone</span>
+          <strong id="modalPhone">-</strong>
+        </div>
+        <div>
+          <span>College / Institute</span>
+          <strong id="modalCollege">-</strong>
+        </div>
+        <div>
+          <span>Course / Class</span>
+          <strong id="modalCourse">-</strong>
+        </div>
+        <div>
+          <span>Date</span>
+          <strong id="modalDate">-</strong>
+        </div>
+      </div>
+
+      <h4 style="font-size: 14px; color: var(--primary); margin-bottom: 8px;">Booked Events:</h4>
+      <table class="receipt-events-table">
+        <thead>
+          <tr>
+            <th>Event Name (2027)</th>
+            <th>Date</th>
+            <th style="text-align: right;">Fee (INR)</th>
+          </tr>
+        </thead>
+        <tbody id="modalEventsTableBody"></tbody>
+      </table>
+
+      <div class="receipt-total-bar">
+        <span>Total Amount Paid:</span>
+        <span id="modalTotalPaid">₹0</span>
+      </div>
+
+      <div class="receipt-actions">
+        <button class="btn-print" onclick="window.print()">
+          <span>🖨️ Print / Download PDF Receipt</span>
+        </button>
+        <button class="btn-close-modal" onclick="closeInvoiceModal()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-brand">
+      <h4>CampusConnect 2027</h4>
+      <p>Jana Seva Sangh's Shri Ram College, Bhandup (W)</p>
+    </div>
+
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#events">Events 2027</a>
+      <a href="register.html">Register & Billing</a>
+      <a href="login.html">Student Login</a>
+      <a href="admin.html">Admin Portal</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2027 CampusConnect • College Event Registration & Multi-Billing System</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

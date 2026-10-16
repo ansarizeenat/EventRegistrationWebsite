@@ -1,0 +1,102 @@
+[
+  {
+    "registrationId": "CC-2027-6711",
+    "fullName": "Rahul Verma",
+    "email": "rahul.verma@gmail.com",
+    "phone": "9823456789",
+    "college": "Jana Seva Sangh's Shri Ram College",
+    "course": "SY B.Sc IT",
+    "events": [
+      {
+        "price": 250,
+        "name": "TechSpark 2027",
+        "id": "techspark-2027",
+        "date": "15 February 2027"
+      },
+      {
+        "price": 200,
+        "name": "Esports Battleground 2027",
+        "id": "esports-arena-2027",
+        "date": "18 March 2027"
+      }
+    ],
+    "totalAmount": 450,
+    "paymentStatus": "Confirmed",
+    "createdAt": "2026-10-16T07:00:16.373Z"
+  },
+  {
+    "registrationId": "CC-2027-1084",
+    "fullName": "Aarav Sharma",
+    "email": "aarav.sharma@gmail.com",
+    "phone": "9876543210",
+    "college": "Jana Seva Sangh's Shri Ram College",
+    "course": "TY B.Sc Computer Science",
+    "events": [
+      {
+        "id": "techspark-2027",
+        "name": "TechSpark 2027",
+        "price": 250,
+        "date": "15 February 2027"
+      },
+      {
+        "id": "ai-robotics-2027",
+        "name": "AI & Robotics Expo 2027",
+        "price": 300,
+        "date": "20 February 2027"
+      }
+    ],
+    "totalAmount": 550,
+    "paymentStatus": "Confirmed",
+    "createdAt": "2027-01-10T10:15:30.000Z"
+  },
+  {
+    "registrationId": "CC-2027-1099",
+    "fullName": "Zeenat Ansari",
+    "email": "zeenat.ansari@gmail.com",
+    "phone": "9812345678",
+    "college": "Jana Seva Sangh's Shri Ram College",
+    "course": "TY B.Sc CS",
+    "events": [
+      {
+        "id": "tarang-cultural-2027",
+        "name": "Tarang Cultural Fest 2027",
+        "price": 200,
+        "date": "26 February 2027"
+      },
+      {
+        "id": "cyber-bootcamp-2027",
+        "name": "Cyber Security & Ethical Hacking Bootcamp 2027",
+        "price": 350,
+        "date": "10 April 2027"
+      }
+    ],
+    "totalAmount": 550,
+    "paymentStatus": "Confirmed",
+    "createdAt": "2027-01-12T14:20:00.000Z"
+  },
+  {
+    "registrationId": "CC-2027-1115",
+    "fullName": "Priya Patel",
+    "email": "priya.patel@gmail.com",
+    "phone": "9920112233",
+    "college": "V.K. Krishna Menon College",
+    "course": "SY B.Com",
+    "events": [
+      {
+        "id": "sports-meet-2027",
+        "name": "Inter-College Sports Meet 2027",
+        "price": 150,
+        "date": "5 March 2027"
+      },
+      {
+        "id": "pixelcraft-photo-2027",
+        "name": "PixelCraft Photography & Film 2027",
+        "price": 100,
+        "date": "24 March 2027"
+      }
+    ],
+    "totalAmount": 250,
+    "paymentStatus": "Confirmed",
+    "createdAt": "2027-01-14T09:45:10.000Z"
+  }
+]
