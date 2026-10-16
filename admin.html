@@ -1,95 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CampusConnect Admin Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Management Dashboard | CampusConnect 2027</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 </head>
+
 <body>
 
+<!-- Header -->
 <header>
-    <h1>CampusConnect Admin Dashboard</h1>
+  <div class="brand-wrapper">
+    <h1>
+      <a href="index.html">CampusConnect Admin</a>
+      <span class="year-badge">2027</span>
+    </h1>
+    <p class="college-subtitle">Festival Steering Committee & Registration Control</p>
+  </div>
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="admin.html">Dashboard</a>
-    </nav>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="register.html">Register & Bill</a>
+    <a href="admin.html" class="active">Dashboard</a>
+    <a href="#" onclick="adminLogout()" style="color: #fca5a5;">Logout 🚪</a>
+  </nav>
 </header>
 
 <main>
 
 <section>
 
-<h2>Registered Students</h2>
+  <!-- Admin Title & Actions -->
+  <div class="admin-header-row">
+    <div>
+      <h2>Festival Registration & Revenue Dashboard</h2>
+      <p style="color: var(--text-muted); font-size: 14px;">Live tracking of all participant entries, event bookings, and fee settlements</p>
+    </div>
 
-<div class="dashboard-card">
-    <h3>Total Registrations</h3>
-    <p>0</p>
-</div>
+    <div class="admin-actions">
+      <button class="btn-export" onclick="exportToCSV()">
+        <span>📥 Export to Excel/CSV</span>
+      </button>
+      <button class="filter-btn" onclick="window.print()" style="background: white;">
+        <span>🖨️ Print Records</span>
+      </button>
+      <button class="filter-btn" onclick="loadAdminRegistrations()" style="background: white;">
+        <span>🔄 Refresh</span>
+      </button>
+    </div>
+  </div>
 
-<input
-type="text"
-id="searchInput"
-placeholder="Search by Name, Email, College, Course or Event..."
-onkeyup="searchStudent()">
+  <!-- Metric Counters -->
+  <div class="admin-stats-grid">
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon">👥</div>
+      <div class="admin-stat-info">
+        <h4>Total Registered Students</h4>
+        <p id="dashTotalStudents">0</p>
+      </div>
+    </div>
 
-<table id="studentTable">
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon">🎟️</div>
+      <div class="admin-stat-info">
+        <h4>Total Event Passes Issued</h4>
+        <p id="dashTotalPasses">0</p>
+      </div>
+    </div>
 
-<thead>
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon">💰</div>
+      <div class="admin-stat-info">
+        <h4>Total Festival Revenue</h4>
+        <p id="dashTotalRevenue">₹0</p>
+      </div>
+    </div>
 
-<tr>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Phone</th>
-    <th>College</th>
-    <th>Course</th>
-    <th>Event</th>
-</tr>
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon">🏛️</div>
+      <div class="admin-stat-info">
+        <h4>Participating Colleges</h4>
+        <p id="dashTotalColleges">0</p>
+      </div>
+    </div>
+  </div>
 
-</thead>
+  <!-- Search & Filter Controls -->
+  <div class="table-controls">
+    <div class="search-box">
+      <input 
+        type="text" 
+        id="adminSearchInput" 
+        placeholder="🔍 Live Search by Name, Email, Phone, College, Course, Event, or ID..." 
+        onkeyup="filterAdminTable()"
+      >
+    </div>
 
-<tbody>
+    <div>
+      <select id="eventFilterSelect" class="input-control" style="width: auto; padding: 10px 15px; margin: 0;" onchange="filterAdminTable()">
+        <option value="">All Events (Filter)</option>
+      </select>
+    </div>
+  </div>
 
-<!-- MongoDB data will load here automatically -->
-
-</tbody>
-
-</table>
+  <!-- Registrations Table -->
+  <div class="table-responsive">
+    <table id="adminStudentsTable">
+      <thead>
+        <tr>
+          <th>Reg ID</th>
+          <th>Student Name</th>
+          <th>Contact (Email / Phone)</th>
+          <th>College & Course</th>
+          <th>Registered Events (2027)</th>
+          <th>Total Bill</th>
+          <th>Registration Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="adminTableBody">
+        <tr>
+          <td colspan="8" style="text-align: center; padding: 30px; color: var(--text-muted);">
+            Loading registrations...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
 </section>
 
 </main>
 
+<!-- INVOICE PREVIEW MODAL -->
+<div class="modal-overlay" id="invoiceModal">
+  <div class="receipt-modal">
+    <div class="receipt-header">
+      <div>
+        <h3>🎓 Official Registration Receipt</h3>
+        <p style="font-size: 12px; color: #cbd5e1;">CampusConnect 2027 • Shri Ram College</p>
+      </div>
+      <div class="receipt-badge-status" id="modalPaymentStatus">PAID & CONFIRMED</div>
+    </div>
+
+    <div class="receipt-body">
+      <div style="text-align: center; padding: 12px; background: #f0fdf4; border: 1px dashed #86efac; border-radius: 8px; margin-bottom: 18px;">
+        <span style="font-size: 12px; color: #166534; font-weight: 600;">PASS REFERENCE NUMBER</span>
+        <div style="font-size: 24px; font-weight: 800; color: #15803d;" id="modalRegId">CC-2027-XXXX</div>
+      </div>
+
+      <div class="receipt-meta-grid">
+        <div>
+          <span>Student Name</span>
+          <strong id="modalFullName">-</strong>
+        </div>
+        <div>
+          <span>Email Address</span>
+          <strong id="modalEmail">-</strong>
+        </div>
+        <div>
+          <span>Mobile Phone</span>
+          <strong id="modalPhone">-</strong>
+        </div>
+        <div>
+          <span>College / Institute</span>
+          <strong id="modalCollege">-</strong>
+        </div>
+        <div>
+          <span>Course / Class</span>
+          <strong id="modalCourse">-</strong>
+        </div>
+        <div>
+          <span>Date</span>
+          <strong id="modalDate">-</strong>
+        </div>
+      </div>
+
+      <h4 style="font-size: 14px; color: var(--primary); margin-bottom: 8px;">Booked Events:</h4>
+      <table class="receipt-events-table">
+        <thead>
+          <tr>
+            <th>Event Name (2027)</th>
+            <th>Date</th>
+            <th style="text-align: right;">Fee (INR)</th>
+          </tr>
+        </thead>
+        <tbody id="modalEventsTableBody"></tbody>
+      </table>
+
+      <div class="receipt-total-bar">
+        <span>Total Amount Paid:</span>
+        <span id="modalTotalPaid">₹0</span>
+      </div>
+
+      <div class="receipt-actions">
+        <button class="btn-print" onclick="window.print()">
+          <span>🖨️ Print Receipt</span>
+        </button>
+        <button class="btn-close-modal" onclick="closeInvoiceModal()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
 <footer>
-    <p>© 2026 CampusConnect</p>
+  <div class="footer-content">
+    <div class="footer-brand">
+      <h4>CampusConnect 2027</h4>
+      <p>Jana Seva Sangh's Shri Ram College, Bhandup (W)</p>
+    </div>
+
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="register.html">Register & Billing</a>
+      <a href="admin.html">Dashboard</a>
+      <a href="login.html">Login</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2027 CampusConnect • College Event Registration & Multi-Billing System</p>
+  </div>
 </footer>
-
-<script>
-
-function searchStudent(){
-
-    let input = document.getElementById("searchInput").value.toLowerCase();
-
-    let table = document.getElementById("studentTable");
-
-    let rows = table.getElementsByTagName("tr");
-
-    for(let i = 1; i < rows.length; i++){
-
-        let rowText = rows[i].innerText.toLowerCase();
-
-        if(rowText.includes(input)){
-            rows[i].style.display = "";
-        }else{
-            rows[i].style.display = "none";
-        }
-
-    }
-
-}
-
-</script>
 
 <script src="admin.js"></script>
 

@@ -1,107 +1,298 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Registration | CampusConnect</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Registration & Billing System | CampusConnect 2027</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎟️</text></svg>">
 </head>
+
 <body>
 
+<!-- Header & Nav -->
 <header>
-    <h1>CampusConnect</h1>
+  <div class="brand-wrapper">
+    <h1>
+      <a href="index.html">CampusConnect</a>
+      <span class="year-badge">2027</span>
+    </h1>
+    <p class="college-subtitle">Jana Seva Sangh's Shri Ram College, Bhandup (W)</p>
+  </div>
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="index.html#events">Events</a>
-        <a href="index.html#contact">Contact</a>
-    </nav>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="index.html#events">Events 2027</a>
+    <a href="register.html" class="active">Register & Bill</a>
+    <a href="login.html">Login / Passes</a>
+    <a href="admin.html">Admin</a>
+  </nav>
 </header>
 
-<section style="margin-top:50px;">
+<main>
 
-<h2 style="text-align:center;">Event Registration Form</h2>
+<section>
+  <div class="section-header" style="margin-bottom: 30px;">
+    <h2>Student Event Registration & Billing (2027)</h2>
+    <p>Select multiple events, verify student details, and get your instant invoice receipt</p>
+  </div>
 
-<form id="registrationForm">
+  <div class="registration-layout">
 
-<label>Full Name</label>
-<input
-type="text"
-id="fullName"
-placeholder="Enter your full name"
-required>
+    <!-- LEFT: Registration Form -->
+    <div class="form-card">
+      <h3 style="color: var(--primary); font-size: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+        <span>📝</span> Student Information & Event Selection
+      </h3>
 
-<label>Email Address</label>
-<input
-type="email"
-id="email"
-placeholder="Enter email"
-required>
+      <form id="registrationForm" novalidate>
 
-<label>Phone Number</label>
-<input
-type="tel"
-id="phone"
-placeholder="Enter phone number"
-required>
+        <!-- Full Name -->
+        <div class="form-group">
+          <label for="fullName">Full Name <span class="required">*</span></label>
+          <input 
+            type="text" 
+            id="fullName" 
+            class="input-control" 
+            placeholder="e.g. Zeenat Ansari" 
+            autocomplete="name"
+          >
+          <div class="field-error" id="fullNameError">Please enter your full name (minimum 3 characters, alphabets only).</div>
+        </div>
 
-<label>College Name</label>
-<input
-type="text"
-id="college"
-placeholder="Enter college name"
-required>
+        <!-- Email Address -->
+        <div class="form-group">
+          <label for="email">Email Address <span class="required">*</span></label>
+          <input 
+            type="email" 
+            id="email" 
+            class="input-control" 
+            placeholder="e.g. zeenat@example.com" 
+            autocomplete="email"
+          >
+          <div class="field-error" id="emailError">Invalid email address! Please enter a valid format (e.g. student@gmail.com).</div>
+        </div>
 
-<label>Course / Class</label>
-<input
-type="text"
-id="course"
-placeholder="Example: TY B.Sc CS"
-required>
+        <!-- Phone Number -->
+        <div class="form-group">
+          <label for="phone">Mobile Phone Number <span class="required">*</span></label>
+          <input 
+            type="tel" 
+            id="phone" 
+            class="input-control" 
+            placeholder="e.g. 9876543210 (10 digits)" 
+            maxlength="10"
+            autocomplete="tel"
+          >
+          <div class="field-error" id="phoneError">Invalid phone number! Must be exactly 10 digits starting with 6, 7, 8, or 9.</div>
+        </div>
 
-<label>Select Event</label>
+        <!-- College Name -->
+        <div class="form-group">
+          <label for="college">College Name <span class="required">*</span></label>
+          <input 
+            type="text" 
+            id="college" 
+            class="input-control" 
+            placeholder="e.g. Jana Seva Sangh's Shri Ram College"
+            value="Jana Seva Sangh's Shri Ram College"
+          >
+          <div class="field-error" id="collegeError">Please enter your college name (minimum 3 characters).</div>
+        </div>
 
-<select id="event" required>
+        <!-- Course / Class -->
+        <div class="form-group">
+          <label for="course">Course & Class <span class="required">*</span></label>
+          <input 
+            type="text" 
+            id="course" 
+            class="input-control" 
+            placeholder="e.g. TY B.Sc CS / SY B.Com / FY BMS"
+          >
+          <div class="field-error" id="courseError">Please specify your current course or department.</div>
+        </div>
 
-<option value="">Select Event</option>
+        <!-- Events Selector (Checkboxes with prices) -->
+        <div class="form-group">
+          <label>Select Event(s) to Participate <span class="required">*</span></label>
+          <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 8px;">
+            You can select one or more events. Pricing will update automatically in the billing card.
+          </p>
 
-<option>TechSpark 2026</option>
-<option>Cultural Night</option>
-<option>Sports Meet</option>
-<option>AI & Web Development Workshop</option>
-<option>Startup & Entrepreneurship Summit</option>
-<option>Photography Competition</option>
-<option>Poster & Art Competition</option>
+          <div class="events-selector-box" id="eventsSelectorBox">
+            <!-- Dynamically populated or static fallback list -->
+            <div style="text-align: center; padding: 20px; color: var(--text-muted);">Loading events catalog...</div>
+          </div>
+          <div class="field-error" id="eventsError">Please select at least one event to proceed with registration.</div>
+        </div>
 
-</select>
+        <!-- Notice -->
+        <p id="formStatusMessage" style="font-size: 14px; font-weight: 600; text-align: center; margin-top: 15px;"></p>
 
-<p id="message"></p>
+      </form>
+    </div>
 
-<button type="submit">
-Submit Registration
-</button>
+    <!-- RIGHT: Live Billing Summary Card -->
+    <div>
+      <div class="billing-card">
+        <h3>
+          <span>🧾 Billing & Invoice Summary</span>
+          <span class="billing-badge" id="selectedCountBadge">0 Events</span>
+        </h3>
 
-</form>
+        <!-- Itemized list -->
+        <ul class="billing-list" id="billingList">
+          <li class="billing-item empty-state">No events selected yet. Check boxes from the left list.</li>
+        </ul>
 
+        <!-- Calculation Breakdown -->
+        <div class="billing-breakdown">
+          <div class="breakdown-row">
+            <span>Subtotal</span>
+            <span id="billSubtotal">₹0</span>
+          </div>
+
+          <div class="breakdown-row discount" id="discountRow" style="display: none;">
+            <span>Multi-Event Student Discount (10%)</span>
+            <span id="billDiscount">-₹0</span>
+          </div>
+
+          <div class="breakdown-row">
+            <span>Festival Registration Fee</span>
+            <span style="color: #10b981; font-weight: 600;">FREE (Waived)</span>
+          </div>
+
+          <div class="breakdown-row total-row">
+            <span>Total Payable:</span>
+            <span id="billTotalAmount">₹0</span>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="button" id="submitRegBtn" class="btn-submit-registration">
+          <span>Complete Registration & Pay</span>
+          <span>💳</span>
+        </button>
+
+        <div class="billing-trust-note">
+          🔒 Secure 2027 College Portal • Instant Digital E-Pass
+        </div>
+      </div>
+    </div>
+
+  </div>
 </section>
 
+</main>
+
+<!-- INVOICE / RECEIPT MODAL -->
+<div class="modal-overlay" id="invoiceModal">
+  <div class="receipt-modal">
+    <div class="receipt-header">
+      <div>
+        <h3>🎓 Official Registration Receipt</h3>
+        <p style="font-size: 12px; color: #cbd5e1; margin-top: 2px;">CampusConnect 2027 • Shri Ram College</p>
+      </div>
+      <div class="receipt-badge-status" id="modalPaymentStatus">PAID & CONFIRMED</div>
+    </div>
+
+    <div class="receipt-body" id="invoicePrintArea">
+      <!-- Registration ID Banner -->
+      <div style="text-align: center; padding: 12px; background: #f0fdf4; border: 1px dashed #86efac; border-radius: 8px; margin-bottom: 18px;">
+        <span style="font-size: 12px; color: #166534; font-weight: 600; text-transform: uppercase;">Pass Reference Number</span>
+        <div style="font-size: 24px; font-weight: 800; color: #15803d; letter-spacing: 1px;" id="modalRegId">CC-2027-XXXX</div>
+      </div>
+
+      <!-- Student Details Grid -->
+      <div class="receipt-meta-grid">
+        <div>
+          <span>Student Name</span>
+          <strong id="modalFullName">-</strong>
+        </div>
+        <div>
+          <span>Email Address</span>
+          <strong id="modalEmail">-</strong>
+        </div>
+        <div>
+          <span>Mobile Phone</span>
+          <strong id="modalPhone">-</strong>
+        </div>
+        <div>
+          <span>College / Institute</span>
+          <strong id="modalCollege">-</strong>
+        </div>
+        <div>
+          <span>Course / Class</span>
+          <strong id="modalCourse">-</strong>
+        </div>
+        <div>
+          <span>Registration Date</span>
+          <strong id="modalDate">-</strong>
+        </div>
+      </div>
+
+      <!-- Events List Table -->
+      <h4 style="font-size: 14px; color: var(--primary); margin-bottom: 8px;">Booked Events & Pass Details:</h4>
+      <table class="receipt-events-table">
+        <thead>
+          <tr>
+            <th>Event Name (2027)</th>
+            <th>Scheduled Date</th>
+            <th style="text-align: right;">Fee (INR)</th>
+          </tr>
+        </thead>
+        <tbody id="modalEventsTableBody">
+          <!-- Populated dynamically -->
+        </tbody>
+      </table>
+
+      <!-- Total Paid Bar -->
+      <div class="receipt-total-bar">
+        <span>Total Amount Paid:</span>
+        <span id="modalTotalPaid">₹0</span>
+      </div>
+
+      <!-- QR / Barcode aesthetic note -->
+      <div style="border-top: 1px dashed #cbd5e1; padding-top: 14px; text-align: center; font-size: 12px; color: #64748b;">
+        <p>📷 Show this electronic receipt or printed admit pass at the Registration Help Desk on the day of the event.</p>
+        <p style="margin-top: 4px; font-weight: 600; color: var(--primary);">Jana Seva Sangh's Shri Ram College, Bhandup (W), Mumbai</p>
+      </div>
+
+      <div class="receipt-actions">
+        <button class="btn-print" onclick="window.print()">
+          <span>🖨️ Print / Download PDF Receipt</span>
+        </button>
+        <button class="btn-close-modal" onclick="closeInvoiceModal()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
 <footer>
+  <div class="footer-content">
+    <div class="footer-brand">
+      <h4>CampusConnect 2027</h4>
+      <p>Jana Seva Sangh's Shri Ram College, Bhandup (W)</p>
+    </div>
 
-<p>
-© 2026 CampusConnect | College Event Registration Website
-</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#events">Events 2027</a>
+      <a href="register.html">Register & Billing</a>
+      <a href="login.html">Student Login</a>
+      <a href="admin.html">Admin Portal</a>
+    </div>
+  </div>
 
+  <div class="footer-bottom">
+    <p>© 2027 CampusConnect • College Event Registration & Multi-Billing System</p>
+  </div>
 </footer>
 
 <script src="script.js"></script>
-<script>
-const params = new URLSearchParams(window.location.search);
-const selectedEvent = params.get("event");
-
-if (selectedEvent) {
-    document.getElementById("event").value = selectedEvent;
-}
-</script>
 
 </body>
 </html>
