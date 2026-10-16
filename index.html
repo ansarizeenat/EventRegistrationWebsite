@@ -23,7 +23,7 @@
   <nav id="navbar">
     <a href="index.html" class="active">Home</a>
     <a href="#events">Events 2027</a>
-    <a href="#stats">Statistics</a>
+    <a href="#stats">Live Stats</a>
     <a href="register.html" class="btn-nav-primary">Register & Bill 🎟️</a>
     <a href="login.html" id="navLoginBtn">Login / Passes 👤</a>
     <a href="admin.html">Admin</a>
@@ -51,23 +51,11 @@
   </div>
 </section>
 
-<!-- About Section -->
-<section class="about-section">
-  <div class="section-header">
-    <h2>About CampusConnect 2027</h2>
-    <p>Empowering young minds through competitive excellence, innovation, and creative arts</p>
-  </div>
-
-  <p style="text-align: center; max-width: 850px; margin: 0 auto 30px; font-size: 17px; color: #475569; line-height: 1.8;">
-    Organized by <strong>Jana Seva Sangh's Shri Ram College</strong>, CampusConnect 2027 is a state-level inter-collegiate platform. Students can register for multiple events simultaneously, enjoy instant itemized billing, get digital entry passes with barcodes, and compete for trophies, certificates, and attractive cash prizes.
-  </p>
-</section>
-
 <!-- Featured Events Section -->
 <section id="events">
   <div class="section-header">
     <h2>Upcoming Events (Year 2027)</h2>
-    <p>Pick your favorite events, participate individually or as a team, and generate your instant pass</p>
+    <p>Select your favorite events, participate individually or as a team, and generate your instant pass</p>
   </div>
 
   <!-- Category Filter Tabs -->
@@ -81,10 +69,8 @@
     <button class="filter-btn" onclick="filterEvents('Business')">🚀 Startup & Quiz</button>
   </div>
 
-  <!-- Events Container -->
-  <div class="events-container" id="eventsContainer">
-    <!-- Rendered dynamically via script.js -->
-  </div>
+  <!-- Events Container (Rendered dynamically via script.js with no duplicates) -->
+  <div class="events-container" id="eventsContainer"></div>
 </section>
 
 <!-- Live Fest Stats Section -->
@@ -96,7 +82,7 @@
 
   <div class="stats-container">
     <div class="stat-box">
-      <h3 id="statRegistrations">450+</h3>
+      <h3 id="statRegistrations">425+</h3>
       <p>Total Registrations</p>
     </div>
 
@@ -117,11 +103,26 @@
   </div>
 </section>
 
+<!-- Campus Event Gallery (Distinct images, zero repetition) -->
+<section class="gallery">
+  <div class="section-header">
+    <h2>Event Memories & Highlights</h2>
+    <p>Glance into the energy and passion of our collegiate competitions</p>
+  </div>
+
+  <div class="gallery-container">
+    <img src="https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=900&auto=format&fit=crop" alt="Championship Trophy & Awards Ceremony">
+    <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=900&auto=format&fit=crop" alt="Campus Auditorium Audience & Fest Crowd">
+    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=900&auto=format&fit=crop" alt="Students Celebrating Together">
+    <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=900&auto=format&fit=crop" alt="Hackathon Collaborative Team Sprint">
+  </div>
+</section>
+
 <!-- Testimonials -->
 <section class="testimonials">
   <div class="section-header">
     <h2>What Students Say</h2>
-    <p>Honest feedback from students and participants from past campus festivals</p>
+    <p>Honest feedback from students and participants from collegiate festivals</p>
   </div>
 
   <div class="testimonial-container">
@@ -134,7 +135,7 @@
 
     <div class="testimonial-card">
       <p>
-        "I registered for both Esports and Sports Meet in one go. The instant digital invoice pass with QR code makes check-in super smooth!"
+        "I registered for both Esports and Sports Meet in one go. The instant digital invoice pass with barcode makes check-in super smooth!"
       </p>
       <h4>- Rahul Sharma (BMS, 2nd Year)</h4>
     </div>
@@ -145,21 +146,6 @@
       </p>
       <h4>- Priya Patel (B.Com, Shri Ram College)</h4>
     </div>
-  </div>
-</section>
-
-<!-- Campus Event Gallery -->
-<section class="gallery">
-  <div class="section-header">
-    <h2>Event Memories & Highlights</h2>
-    <p>Glance into the energy and passion of our collegiate competitions</p>
-  </div>
-
-  <div class="gallery-container">
-    <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=900&auto=format&fit=crop" alt="Tech Fest">
-    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=900&auto=format&fit=crop" alt="Cultural Night">
-    <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?w=900&auto=format&fit=crop" alt="Sports Meet">
-    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=900&auto=format&fit=crop" alt="Workshop">
   </div>
 </section>
 
@@ -238,7 +224,7 @@
   </div>
 
   <div class="footer-bottom">
-    <p>© 2027 CampusConnect • College Event Registration & Multi-Billing System | Designed with ❤️ for Shri Ram College</p>
+    <p>© 2027 CampusConnect • College Event Registration & Multi-Billing System | Jana Seva Sangh's Shri Ram College</p>
   </div>
 </footer>
 
