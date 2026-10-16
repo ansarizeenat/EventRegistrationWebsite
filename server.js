@@ -313,13 +313,24 @@ app.post("/register", async (req, res) => {
         }
     }
 
+    // Deduplicate events to ensure no event is added or billed twice
+    const uniqueEvents = [];
+    const seenEvents = new Set();
+    selectedEvents.forEach(ev => {
+        const key = (ev.id || ev.name || "").toString().toLowerCase().trim();
+        if (key && !seenEvents.has(key)) {
+            seenEvents.add(key);
+            uniqueEvents.push(ev);
+        }
+    });
+
     const payload = {
         fullName: req.body.fullName ? req.body.fullName.trim() : "",
         email: req.body.email ? req.body.email.trim().toLowerCase() : "",
         phone: req.body.phone ? req.body.phone.trim() : "",
         college: req.body.college ? req.body.college.trim() : "",
         course: req.body.course ? req.body.course.trim() : "",
-        events: selectedEvents
+        events: uniqueEvents
     };
 
     const validation = validateRegistration(payload);
@@ -331,11 +342,18 @@ app.post("/register", async (req, res) => {
         });
     }
 
-    // Calculate billing
-    let totalAmount = 0;
+    // Calculate billing without repetition
+    let subtotal = 0;
     payload.events.forEach(ev => {
-        totalAmount += Number(ev.price) || 0;
+        subtotal += Number(ev.price) || 0;
     });
+
+    // Multi-event discount: 10% discount if 2 or more events selected
+    let discount = 0;
+    if (payload.events.length >= 2) {
+        discount = Math.round(subtotal * 0.10);
+    }
+    const totalAmount = subtotal - discount;
 
     const regDoc = {
         registrationId: generateRegistrationId(),
@@ -345,6 +363,8 @@ app.post("/register", async (req, res) => {
         college: payload.college,
         course: payload.course,
         events: payload.events,
+        subtotal: subtotal,
+        discount: discount,
         totalAmount: totalAmount,
         paymentStatus: "Confirmed",
         createdAt: new Date().toISOString()
@@ -417,7 +437,7 @@ app.delete("/registrations/:id", async (req, res) => {
     }
 });
 
-// 5. Statistics API
+// 5. Statistics API (Base count is 425+, increases with every registration)
 app.get("/stats", async (req, res) => {
     try {
         let allRegistrations = [];
@@ -452,9 +472,13 @@ app.get("/stats", async (req, res) => {
             }
         });
 
+        // Base registration count is 425, dynamically incrementing with every new registration!
+        const BASE_REGISTRATION_OFFSET = 425;
+        const liveTotalCount = BASE_REGISTRATION_OFFSET + totalRegistrations;
+
         res.json({
             success: true,
-            registrations: 420 + totalRegistrations,
+            registrations: liveTotalCount,
             totalStudents: totalRegistrations,
             totalRevenue: totalRevenue,
             totalEventsBooked: totalEventsBooked,

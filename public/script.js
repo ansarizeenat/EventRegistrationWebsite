@@ -180,8 +180,12 @@ function renderEventsGrid(eventsList) {
     if (!container) return;
 
     container.innerHTML = "";
+    const renderedIds = new Set();
 
     eventsList.forEach(event => {
+        if (renderedIds.has(event.id)) return;
+        renderedIds.add(event.id);
+
         const card = document.createElement("div");
         card.className = "event-card";
         card.setAttribute("data-category", event.category);
@@ -228,8 +232,27 @@ function filterEvents(category) {
 }
 
 // ==========================================
-// 2. LIVE STATISTICS
+// 2. LIVE STATISTICS & ANIMATION (Starts at 425+ and increments)
 // ==========================================
+function animateCounter(element, target) {
+    if (!element) return;
+    const start = Math.max(425, target - 5);
+    if (start >= target) {
+        element.textContent = `${target}+`;
+        return;
+    }
+    let current = start;
+    element.textContent = `${current}+`;
+    const interval = setInterval(() => {
+        current += 1;
+        element.textContent = `${current}+`;
+        if (current >= target) {
+            clearInterval(interval);
+            element.textContent = `${target}+`;
+        }
+    }, 120);
+}
+
 async function loadLiveStats() {
     try {
         const res = await fetch("/stats");
@@ -240,7 +263,9 @@ async function loadLiveStats() {
         const elEvents = document.getElementById("statEventsCount");
         const elColleges = document.getElementById("statColleges");
 
-        if (elReg && stats.registrations) elReg.textContent = `${stats.registrations}+`;
+        if (elReg && stats.registrations) {
+            animateCounter(elReg, stats.registrations);
+        }
         if (elEvents) elEvents.textContent = `${globalEvents.length}`;
         if (elColleges && stats.colleges) elColleges.textContent = `${stats.colleges}+`;
     } catch (e) {
@@ -255,14 +280,21 @@ function initRegistrationPage() {
     const selectorBox = document.getElementById("eventsSelectorBox");
     if (!selectorBox) return;
 
+    // Reset selected events cart to ensure zero duplicates
+    selectedEventsCart = [];
+
     // Check URL parameters for pre-selected event
     const urlParams = new URLSearchParams(window.location.search);
     const preselectedName = urlParams.get("event");
 
     // Populate events checkbox selector
     selectorBox.innerHTML = "";
+    const addedIds = new Set();
 
     globalEvents.forEach((ev, idx) => {
+        if (addedIds.has(ev.id)) return;
+        addedIds.add(ev.id);
+
         const isPreselected = preselectedName && 
             (ev.name.toLowerCase() === preselectedName.toLowerCase() || 
              ev.id.toLowerCase() === preselectedName.toLowerCase());

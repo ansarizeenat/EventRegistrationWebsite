@@ -1,5 +1,66 @@
 [
   {
+    "registrationId": "CC-2027-9508",
+    "fullName": "Faizan Khan",
+    "email": "faizan.khan@gmail.com",
+    "phone": "9820011223",
+    "college": "Jana Seva Sangh's Shri Ram College",
+    "course": "TY B.Sc CS",
+    "events": [
+      {
+        "price": 100,
+        "name": "National MindQuest Quiz & Debate 2027",
+        "id": "mindquest-quiz-2027",
+        "date": "25 April 2027"
+      }
+    ],
+    "subtotal": 100,
+    "discount": 0,
+    "totalAmount": 100,
+    "paymentStatus": "Confirmed",
+    "createdAt": "2026-10-16T07:24:51.670Z"
+  },
+  {
+    "registrationId": "CC-2027-1156",
+    "fullName": "Simran Kaur",
+    "email": "simran.kaur@gmail.com",
+    "phone": "9871122334",
+    "college": "Guru Nanak Khalsa College",
+    "course": "FY B.Sc IT",
+    "events": [
+      {
+        "price": 150,
+        "name": "Voice of Campus - Battle of Bands 2027",
+        "id": "voice-campus-2027",
+        "date": "18 April 2027"
+      }
+    ],
+    "subtotal": 150,
+    "discount": 0,
+    "totalAmount": 150,
+    "paymentStatus": "Confirmed",
+    "createdAt": "2026-10-16T07:24:43.858Z"
+  },
+  {
+    "registrationId": "CC-2027-7302",
+    "fullName": "kainat ansari",
+    "email": "ansarikainat1234@gmail.com",
+    "phone": "9323664905",
+    "college": "Jana Seva Sangh's Shri Ram College",
+    "course": "TYBSC CS",
+    "events": [
+      {
+        "id": "ai-robotics-2027",
+        "name": "AI & Robotics Expo 2027",
+        "price": 300,
+        "date": "20 February 2027"
+      }
+    ],
+    "totalAmount": 300,
+    "paymentStatus": "Confirmed",
+    "createdAt": "2026-10-16T07:05:13.560Z"
+  },
+  {
     "registrationId": "CC-2027-6711",
     "fullName": "Rahul Verma",
     "email": "rahul.verma@gmail.com",
